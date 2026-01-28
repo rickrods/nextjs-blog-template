@@ -1,22 +1,36 @@
-export default function Home() {
+import Container from "@/app/_components/container";
+import HeroPost from "@/app/_components/hero-post";
+import Intro from "@/app/_components/intro";
+import MoreStories from "@/app/_components/more-stories";
+import { getAllPosts } from "@/lib/api";
+import { Metadata } from "next";
+import { CMS_NAME } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  description: `Exploring the world of ${CMS_NAME}.`,
+};
+
+export default function Index() {
+  const allPosts = getAllPosts();
+  const heroPost = allPosts[0];
+  const moreStories = allPosts.slice(1);
+
   return (
-    <div className="container mx-auto px-5 py-8 md:py-12">
-      <section className="flex flex-col items-center text-center">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter leading-tight mb-8">
-          Lorem ipsum dolor sit amet
-        </h1>
-        <div className="max-w-3xl mx-auto text-lg md:text-xl leading-relaxed mb-6">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.          </p><br></br>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.          </p><br></br>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.          </p><br></br>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.          </p><br></br>
-        </div>
-      </section>
-    </div>
+    <main>
+      <Container>
+        <Intro />
+        {heroPost && (
+          <HeroPost
+            title={heroPost.title}
+            coverImage={heroPost.coverImage}
+            date={heroPost.date}
+            author={heroPost.author}
+            slug={heroPost.slug}
+            excerpt={heroPost.excerpt}
+          />
+        )}
+        {moreStories.length > 0 && <MoreStories posts={moreStories} />}
+      </Container>
+    </main>
   );
-  // <p className="text-lg md:text-xl leading-relaxed mb-6">
 }
