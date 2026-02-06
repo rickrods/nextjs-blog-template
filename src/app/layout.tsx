@@ -1,5 +1,5 @@
 import Footer from "@/app/_components/footer";
-import { HOME_OG_IMAGE_URL, SITE_URL } from "@/lib/constants";
+import { CMS_NAME, HOME_OG_IMAGE_URL, SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import cn from "classnames";
@@ -14,14 +14,38 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Blog template",
-  description: "A blog template for Next.js 13 and Tailwind CSS.",
-  keywords: ["blog", "template", "nextjs", "tailwindcss"],
-  alternates: {
-    canonical: "/",
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
+  description: SITE_DESCRIPTION,
   openGraph: {
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    images: [
+      {
+        url: HOME_OG_IMAGE_URL,
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     images: [HOME_OG_IMAGE_URL],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: SITE_URL,
   },
 };
 
@@ -72,7 +96,6 @@ export default function RootLayout({
         <Header />
         <div className="min-h-screen markdown-content">
           <Container>
-            {/* Add some top margin to the main content */}
             <main className="mt-8 md:mt-12">{children}</main>
           </Container>
         </div>
